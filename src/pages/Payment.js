@@ -17,7 +17,7 @@ export default function Payment() {
       <div>
         <h5>
           Hãy mở app Momo lên để quét mã thanh toán hoặc bấm chuyển tiền vào số
-          tài khoản MOMO- 0344867163 (Vũ Mạnh Hùng)
+          tài khoản MOMO Nguyễn Huỳnh Tuấn
         </h5>
         <h3>Số tiền 10.000VNĐ/1 bài</h3>
         <h5>Lời nhắn: CKDAYBAI</h5>
