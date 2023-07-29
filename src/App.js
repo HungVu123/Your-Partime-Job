@@ -20,7 +20,7 @@ const App = () => {
     <>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/Your-Partime-Job/postJob" element={<PostJob />} />
+        <Route path="/postJob" element={<PostJob />} />
         <Route path="/main" element={<Main />} />
         <Route path="/employMain" element={<EmployMain />} />
         <Route path="/payment" element={<Payment />} />
