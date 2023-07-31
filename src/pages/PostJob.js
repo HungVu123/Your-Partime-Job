@@ -49,7 +49,7 @@ const OnBoarding = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://13.229.181.7/api/jobs",
+        "https://13.229.181.7/api/jobs",
         postJob
       );
       navigate("/payment");

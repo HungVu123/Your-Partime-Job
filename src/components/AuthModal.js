@@ -89,7 +89,7 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
 
         axios
           .post(
-            `http://13.229.181.7/api/Account/${
+            `https://13.229.181.7/api/Account/${
               isSignUp
                 ? isChecked
                   ? "EmployerRegister"
