@@ -139,35 +139,36 @@ function Main() {
           <>
             <TinderCard
               ref={childRefs[index]}
-              classNameName="swipe"
+              className="swipe"
               key={index}
               onSwipe={(dir) => swiped(dir, job.id, index)}
               onCardLeftScreen={() => outOfFrame(job.id, index)}
             >
-              <div class="card">
-                <div class="card__title">{job.title}</div>
-                <div class="card__subtitle">{job.description}</div>
+              <div className="card">
+                <div className="card__title">{job.title}</div>
+                <div className="card__subtitle">{job.description}</div>
                 <h4>Salary: {job.salaryRate}$</h4>
-                <div class="card__indicator">
-                  <span class="card__indicator-amount">{job.workType}</span>-{" "}
-                  <span class="card__indicator-percentage">
+                <div className="card__indicator">
+                  <span className="card__indicator-amount">{job.workType}</span>
+                  -{" "}
+                  <span className="card__indicator-percentage">
                     {job.workLocation}
                   </span>
                 </div>
-                <div class="card__progress">
+                <div className="card__progress">
                   <progress max="100" value="40"></progress>
                 </div>
                 <h5>
                   Interested for more information?{" "}
                   <h4 style={{ color: "red" }}>Contact Us</h4>
                 </h5>
-                <div class="card__subtitle">
+                <div className="card__subtitle">
                   Employer Name: {getEmployeeInfo(job.employerId)?.employerName}
                 </div>
-                <div class="card__subtitle">
+                <div className="card__subtitle">
                   Phone: {getEmployeeInfo(job.employerId)?.phone}
                 </div>
-                <div class="card__subtitle">
+                <div className="card__subtitle">
                   Email: {getEmployeeInfo(job.employerId)?.email}
                 </div>
               </div>

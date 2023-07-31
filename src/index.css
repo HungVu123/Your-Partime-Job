@@ -438,7 +438,7 @@ body {
 
 .container .card {
   position: relative;
-  height: 450px;
+  height: 600px;
 }
 
 .content .card .user {
@@ -485,9 +485,11 @@ body {
 }
 
 .content .buttons {
-  margin-top: 10px;
+  margin-bottom: 10px;
   display: flex;
   align-items: center;
+  position: absolute;
+  bottom: 0;
 }
 
 .content .buttons .no i {
