@@ -86,10 +86,10 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
           setError("Passwords need to match!");
           return;
         }
-
+// https://exe201.duckdns.org/api/employers
         axios
           .post(
-            `https://13.229.181.7/api/Account/${
+            `https://exe201.duckdns.org/api/Account/${
               isSignUp
                 ? isChecked
                   ? "EmployerRegister"
