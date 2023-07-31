@@ -25,7 +25,7 @@ export default function ListJobs() {
   const getUser = async () => {
     try {
       const response = await axios.get(
-        `https://13.229.181.7/employers/${cookies.UserInfo.employerId}`
+        `https://exe201.duckdns.org/employers/${cookies.UserInfo.employerId}`
       );
       setJobs(response.data);
     } catch (error) {

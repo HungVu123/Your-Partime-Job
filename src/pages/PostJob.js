@@ -49,7 +49,7 @@ const OnBoarding = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://13.229.181.7/api/jobs",
+        "https://exe201.duckdns.org/api/jobs",
         postJob
       );
       navigate("/payment");

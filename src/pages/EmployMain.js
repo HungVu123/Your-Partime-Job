@@ -79,7 +79,9 @@ function EmployMain() {
 
   const getUser = async () => {
     try {
-      const response = await axios.get("https://13.229.181.7/api/student");
+      const response = await axios.get(
+        "https://exe201.duckdns.org/api/student"
+      );
       setUserList(response.data);
       setUserListLength(response.data.length);
       setCurrentIndex(response.data.length - 1);

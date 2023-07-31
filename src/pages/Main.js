@@ -17,7 +17,9 @@ function Main() {
 
   const getEmp = async () => {
     try {
-      const response = await axios.get("https://13.229.181.7/api/employers");
+      const response = await axios.get(
+        "https://exe201.duckdns.org/api/employers"
+      );
       setEmp(response.data);
     } catch (error) {
       console.log(error);
@@ -31,7 +33,7 @@ function Main() {
 
   const getUser = async () => {
     try {
-      const response = await axios.get("https://13.229.181.7/api/jobs");
+      const response = await axios.get("https://exe201.duckdns.org/api/jobs");
       setJobs(response.data);
       setUserListLength(response.data.length);
       setCurrentIndex(response.data.length - 1);

@@ -49,7 +49,7 @@ export default function Admin() {
 
   const getJobs = async () => {
     try {
-      const response = await axios.get("https://13.229.181.7/api/jobs");
+      const response = await axios.get("https://exe201.duckdns.org/api/jobs");
       setJobs(response.data);
     } catch (error) {
       console.log(error);
@@ -58,7 +58,9 @@ export default function Admin() {
 
   const getEmp = async () => {
     try {
-      const response = await axios.get("https://13.229.181.7/api/employers");
+      const response = await axios.get(
+        "https://exe201.duckdns.org/api/employers"
+      );
       setEmp(response.data);
     } catch (error) {
       console.log(error);
@@ -67,7 +69,9 @@ export default function Admin() {
 
   const getJob = async (id) => {
     try {
-      const response = await axios.get(`https://13.229.181.7/api/jobs/${id}`);
+      const response = await axios.get(
+        `https://exe201.duckdns.org/api/jobs/${id}`
+      );
       setJob(response.data);
     } catch (error) {
       console.log(error);
@@ -81,7 +85,7 @@ export default function Admin() {
 
   const deleteJob = async (id) => {
     try {
-      await axios.delete(`https://13.229.181.7/api/jobs?id=${id}`);
+      await axios.delete(`https://exe201.duckdns.org/api/jobs?id=${id}`);
       getJobs();
     } catch (error) {
       console.log(error);
@@ -107,7 +111,7 @@ export default function Admin() {
 
   const updateJob = async () => {
     try {
-      await axios.put(`https://13.229.181.7/api/jobs`, JobUpdate);
+      await axios.put(`https://exe201.duckdns.org/api/jobs`, JobUpdate);
       getJobs();
       setOpen(false);
     } catch (error) {
