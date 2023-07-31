@@ -50,12 +50,12 @@ export default function Payment() {
           </div>
 
           <button
-            class="cssbuttons-io-button"
+            className="cssbuttons-io-button"
             type="submit"
             style={{ marginTop: "10px", marginBottom: "10px" }}
           >
             Next
-            <div class="icon">
+            <div className="icon">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"

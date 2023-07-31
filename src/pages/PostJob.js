@@ -6,54 +6,57 @@ import axios from "axios";
 
 const OnBoarding = () => {
   const [cookies, setCookie, removeCookie] = useCookies(null);
-  const [formData, setFormData] = useState({
-    user_id: cookies.UserId,
-    first_name: "",
-    dob_day: "",
-    dob_month: "",
-    dob_year: "",
-    show_gender: false,
-    gender_identity: "man",
-    gender_interest: "woman",
-    url: "",
-    about: "",
-    email: "",
-    description: "",
-    matches: [],
-    salary: "",
-  });
+  const [Title, setTitle] = useState();
+  const [Description, setDescription] = useState();
+  const [WorkLocation, setWorkLocation] = useState();
+  const [WorkType, setWorkType] = useState("Onboard");
+  const [SalaryRate, setSalaryRate] = useState(0);
+
+  const handleCheckboxChange = (event) => {
+    setWorkType(event.target.value);
+  };
+
+  const jobId = 0;
+  const dateCreated = new Date();
+  const dateUpdated = new Date();
+  const employerId = cookies.UserInfo.employerId;
+  const jobStatus = 1;
+  const categoryId = 1;
+  const SalaryType = "$(dolar)";
+
+  const postJob = {
+    jobId: jobId,
+    title: Title,
+    description: Description,
+    dateCreated: dateCreated,
+    dateUpdated: dateUpdated,
+    workLocation: WorkLocation,
+    workType: WorkType,
+    salaryRate: parseFloat(SalaryRate),
+    salaryType: SalaryType,
+    jobStatus: jobStatus,
+    employerId: employerId,
+    categoryId: categoryId,
+  };
 
   let navigate = useNavigate();
 
   const next = () => {
     navigate("/employMain");
   };
+
   const handleSubmit = async (e) => {
-    navigate("/payment");
-    // console.log("submitted");
-    // e.preventDefault();
-    // try {
-    //   const response = await axios.put("http://localhost:8000/user", {
-    //     formData,
-    //   });
-    //   console.log(response);
-    //   const success = response.status === 200;
-    //   if (success) navigate("/employMain");
-    // } catch (err) {
-    //   console.log(err);
-    // }
-  };
-
-  const handleChange = (e) => {
-    console.log("e", e);
-    const value =
-      e.target.type === "checkbox" ? e.target.checked : e.target.value;
-    const name = e.target.name;
-
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://13.229.181.7/api/jobs",
+        postJob
+      );
+      navigate("/payment");
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -61,7 +64,7 @@ const OnBoarding = () => {
       <Nav minimal={true} setShowModal={() => {}} showModal={false} />
 
       <div className="onboarding">
-        <h2>POST JOB</h2>
+        <h2>POST A NEW JOB</h2>
 
         <form onSubmit={handleSubmit}>
           <section>
@@ -72,8 +75,7 @@ const OnBoarding = () => {
               name="first_name"
               placeholder="Job Title"
               required={true}
-              value={formData.first_name}
-              onChange={handleChange}
+              onChange={(e) => setTitle(e.target.value)}
             />
 
             <label htmlFor="description">Description</label>
@@ -83,45 +85,8 @@ const OnBoarding = () => {
               name="description"
               placeholder="Description"
               required={true}
-              value={formData.description}
-              onChange={handleChange}
+              onChange={(e) => setDescription(e.target.value)}
             />
-
-            <label>Date Created</label>
-            <div className="multiple-input-container">
-              <input
-                id="dob_day"
-                type="number"
-                name="dob_day"
-                placeholder="DD"
-                required={true}
-                value={formData.dob_day}
-                onChange={handleChange}
-                style={{ width: "60%" }}
-              />
-
-              <input
-                id="dob_month"
-                type="number"
-                name="dob_month"
-                placeholder="MM"
-                required={true}
-                value={formData.dob_month}
-                onChange={handleChange}
-                style={{ width: "60%" }}
-              />
-
-              <input
-                id="dob_year"
-                type="number"
-                name="dob_year"
-                placeholder="YYYY"
-                required={true}
-                value={formData.dob_year}
-                onChange={handleChange}
-                style={{ width: "60%" }}
-              />
-            </div>
 
             <label>Salary</label>
             <input
@@ -130,9 +95,7 @@ const OnBoarding = () => {
               name="salary"
               placeholder="salary"
               required={true}
-              value={formData.salary}
-              onChange={handleChange}
-              style={{ width: "60%" }}
+              onChange={(e) => setSalaryRate(e.target.value)}
             />
 
             <label>Work Type</label>
@@ -142,48 +105,43 @@ const OnBoarding = () => {
                 id="man-gender-interest"
                 type="radio"
                 name="gender_interest"
-                value="man"
-                onChange={handleChange}
-                checked={formData.gender_interest === "man"}
+                value="Onboard"
+                checked={WorkType === "Onboard"}
+                onChange={handleCheckboxChange}
               />
               <label htmlFor="man-gender-interest">OnBoard</label>
               <input
                 id="woman-gender-interest"
                 type="radio"
                 name="gender_interest"
-                value="woman"
-                onChange={handleChange}
-                checked={formData.gender_interest === "woman"}
+                value="Remote"
+                checked={WorkType === "Remote"}
+                onChange={handleCheckboxChange}
               />
               <label htmlFor="woman-gender-interest">Remote</label>
               <input
                 id="everyone-gender-interest"
                 type="radio"
                 name="gender_interest"
-                value="everyone"
-                onChange={handleChange}
-                checked={formData.gender_interest === "everyone"}
+                value="Hybird"
+                checked={WorkType === "Hybird"}
+                onChange={handleCheckboxChange}
               />
               <label htmlFor="everyone-gender-interest">Hybird</label>
             </div>
 
-            <input type="submit" />
-          </section>
-
-          <section>
-            <label htmlFor="url">Job Photo</label>
+            <label htmlFor="address">Address</label>
             <input
-              type="url"
-              name="url"
-              id="url"
-              onChange={handleChange}
+              id="address"
+              type="text"
+              name="address"
+              placeholder="Address"
               required={true}
+              onChange={(e) => setWorkLocation(e.target.value)}
+              maxLength="20"
             />
-            <div className="photo-container">
-              {formData.url && (
-                <img src={formData.url} alt="profile pic preview" />
-              )}
-            </div>
+
+            <input type="submit" />
           </section>
         </form>
         <div className="button" onClick={next}>

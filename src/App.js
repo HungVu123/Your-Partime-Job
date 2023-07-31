@@ -1,6 +1,6 @@
 import Home from "./pages/Home";
-import Dashboard from "./pages/Dashboard";
-import OnBoarding from "./pages/OnBoarding";
+// import Dashboard from "./pages/Dashboard";
+// import OnBoarding from "./pages/OnBoarding";
 import PostJob from "./pages/PostJob";
 import { Route, Routes } from "react-router-dom";
 // import { useCookies } from "react-cookie";
@@ -15,7 +15,7 @@ const App = () => {
 
   // const authToken = cookies.AuthToken;
 
-  const authToken = true;
+  // const authToken = true;
   return (
     <>
       <Routes>
@@ -26,8 +26,8 @@ const App = () => {
         <Route path="/payment" element={<Payment />} />
         <Route path="/listJobs" element={<ListJobs />} />
         <Route path="/admin" element={<Admin />} />
-        {authToken && <Route path="/dashboard" element={<Dashboard />} />}
-        {authToken && <Route path="/onboarding" element={<OnBoarding />} />}
+        {/* {authToken && <Route path="/dashboard" element={<Dashboard />} />}
+        {authToken && <Route path="/onboarding" element={<OnBoarding />} />} */}
       </Routes>
     </>
   );

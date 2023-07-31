@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { AdminInfo } from "./data";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect } from "react";
 import { Box, Button, Modal, Typography } from "@mui/material";
@@ -8,10 +8,16 @@ import { Box, Button, Modal, Typography } from "@mui/material";
 export default function Admin() {
   let navigate = useNavigate();
   const [Jobs, setJobs] = useState([]);
+  const [Job, setJob] = useState([]);
   const [id, setId] = useState();
-  const [status, setStatus] = useState();
+  const [Emp, setEmp] = useState([]);
   const Logout = () => {
     navigate("/");
+  };
+
+  const getEmployeeInfo = (employerId) => {
+    const employee = Emp.find((employee) => employee.employerId === employerId);
+    return employee ? employee : null; // Return null if employerId is not found in the employees list
   };
 
   const style = {
@@ -26,19 +32,43 @@ export default function Admin() {
     p: 4,
   };
   const [open, setOpen] = useState(false);
-  const handleOpen = (id, status) => {
+  const [open1, setOpen1] = useState(false);
+
+  const handleOpen = (id) => {
     setOpen(true);
     setId(id);
-    setStatus(status);
+    getJob(id);
   };
+  const handleOpen1 = (id) => {
+    setOpen1(true);
+    setId(id);
+  };
+
   const handleClose = () => setOpen(false);
+  const handleClose1 = () => setOpen1(false);
 
   const getJobs = async () => {
     try {
-      const response = await axios.get(
-        "https://647e3d68af984710854b1627.mockapi.io/jobs"
-      );
+      const response = await axios.get("http://13.229.181.7/api/jobs");
       setJobs(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getEmp = async () => {
+    try {
+      const response = await axios.get("http://13.229.181.7/api/employers");
+      setEmp(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getJob = async (id) => {
+    try {
+      const response = await axios.get(`http://13.229.181.7/api/jobs/${id}`);
+      setJob(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -46,25 +76,38 @@ export default function Admin() {
 
   useEffect(() => {
     getJobs();
+    getEmp();
   }, []);
 
   const deleteJob = async (id) => {
     try {
-      await axios.delete(
-        `https://647e3d68af984710854b1627.mockapi.io/jobs/${id}`
-      );
+      await axios.delete(`http://13.229.181.7/api/jobs?id=${id}`);
       getJobs();
     } catch (error) {
       console.log(error);
     }
   };
 
-  const updateJob = async (id, status) => {
+  const dateUpdated = new Date();
+
+  const JobUpdate = {
+    jobId: id,
+    title: Job.title,
+    description: Job.description,
+    dateCreated: Job.dateCreated,
+    dateUpdated: dateUpdated,
+    workLocation: Job.workLocation,
+    workType: Job.workType,
+    salaryRate: Job.salaryRate,
+    salaryType: Job.salaryType,
+    jobStatus: Job.jobStatus === 1 ? 2 : 1,
+    employerId: Job.employerId,
+    categoryId: Job.categoryId,
+  };
+
+  const updateJob = async () => {
     try {
-      await axios.put(
-        `https://647e3d68af984710854b1627.mockapi.io/jobs/${id}`,
-        { status }
-      );
+      await axios.put(`http://13.229.181.7/api/jobs`, JobUpdate);
       getJobs();
       setOpen(false);
     } catch (error) {
@@ -73,84 +116,92 @@ export default function Admin() {
   };
 
   return (
-    <div class="container">
-      <div class="side" style={{ height: "100%" }}>
-        <div class="header">
-          <div class="avatar">
+    <div className="container">
+      <div className="side" style={{ height: "100%" }}>
+        <div className="header">
+          <div className="avatar">
             <img src={AdminInfo.profileUrl} alt="" />
           </div>
-          <div class="title">
+          <div className="title">
             {AdminInfo.name}
             <button onClick={Logout} style={{ marginLeft: "20px" }}>
-              <span class="button_top"> Log Out</span>
+              <span className="button_top"> Log Out</span>
             </button>
           </div>
         </div>
-        <div class="menu">
+        <div className="menu">
           <ul>
-            <li class="active">Message</li>
+            <li className="active">Message</li>
           </ul>
         </div>
-        <div class="messages">
-          <div class="avatar">
+        <div className="messages">
+          <div className="avatar">
             <img
               src="https://randomuser.me/api/portraits/women/42.jpg"
               alt=""
             />
           </div>
-          <div class="message">
-            <div class="user">Quinli</div>
-            <div class="text">Hello, How are you?</div>
+          <div className="message">
+            <div className="user">Quinli</div>
+            <div className="text">Hello, How are you?</div>
           </div>
         </div>
       </div>
-      <div class="content" style={{ padding: "0" }}>
+      <div className="content" style={{ padding: "0" }}>
         <h2>List of Jobs</h2>
 
         <table style={{ width: "100%" }}>
           <tr>
             <th></th>
-            <th></th>
-            <th>Name</th>
+            <th>Title</th>
             <th>Description</th>
+            <th>WorkLocation</th>
+            <th>WorkType</th>
             <th>Salary</th>
+            <th>Emp</th>
             <th>Status</th>
             <th>Action</th>
           </tr>
-          {Jobs.map((book, index) => (
-            <tr key={book.id}>
+          {Jobs.map((job, index) => (
+            <tr key={index}>
               <td style={{ width: "1px" }}>{index + 1}</td>
               <td>
-                <img
-                  src={book.jobPhotoUrl}
-                  alt=""
-                  height="100px"
-                  width="100px"
-                />
+                <h3>{job.title}</h3>
               </td>
               <td>
-                <h3>{book.name}</h3>
+                <p>{job.description}</p>
               </td>
               <td>
-                <p>{book.description}</p>
+                <p>{job.workLocation}</p>
               </td>
               <td>
-                <span>{book.price}$</span>
+                <p>{job.workType}</p>
               </td>
               <td>
-                {book.status % 2 === 0 ? (
+                <span>
+                  {job.salaryRate}/{job.salaryType}
+                </span>
+              </td>
+              <td>
+                <p>{getEmployeeInfo(job.employerId)?.employerName}</p>
+              </td>
+              <td>
+                {job.jobStatus === 1 ? (
                   <div style={{ color: "red" }}>Pending</div>
                 ) : (
                   <div style={{ color: "green" }}>Success</div>
                 )}
               </td>
               <td>
-                <button className="delete" onClick={() => deleteJob(book.id)}>
+                <button
+                  className="delete"
+                  onClick={() => handleOpen1(job.jobId)}
+                >
                   Delete
                 </button>
                 <button
                   className="update"
-                  onClick={() => handleOpen(book.id, book.status)}
+                  onClick={() => handleOpen(job.jobId)}
                 >
                   Update
                 </button>
@@ -179,11 +230,39 @@ export default function Admin() {
               <Button
                 variant="contained"
                 color="success"
-                onClick={() => updateJob(id, status % 2 === 0 ? 1 : 2)}
+                onClick={() => updateJob()}
               >
                 Yes
               </Button>
               <Button variant="contained" color="error" onClick={handleClose}>
+                No
+              </Button>
+            </div>
+          </Typography>
+        </Box>
+      </Modal>
+      <Modal
+        open={open1}
+        onClose={handleClose1}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Do you want to delete of this job ?
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            <div
+              style={{ display: "flex", gap: "10px", justifyContent: "center" }}
+            >
+              <Button
+                variant="contained"
+                color="success"
+                onClick={() => deleteJob(id)}
+              >
+                Yes
+              </Button>
+              <Button variant="contained" color="error" onClick={handleClose1}>
                 No
               </Button>
             </div>
